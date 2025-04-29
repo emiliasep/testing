@@ -1,0 +1,82 @@
+
+#******************** Settings ************************
+
+*** Settings ***
+
+Documentation	Testing Project functionality and CRUD Operation: Create, Read, Update, Delete
+
+
+Pre Condition	 Open Browser, Login
+Post Condition	Log out, Close Browser
+Tags	Project, TS-1-Project
+
+#******************* Common Variables ********************
+
+*** Variables ***
+
+ProjectsUrl=  https://gitlab.com/projects/new
+Username= XYZ
+Password= ***
+ProjectName = test1
+ProjectSlug = test1
+ProjectNameTemplate = test2
+ProjectSlugTemplate = test2
+VisibilityLevel = private
+NewProjectName = newname
+
+
+#******************** Test Cases *************************
+
+*** Test Case ***
+
+# Positive Tests
+
+	Create blank project
+		Navigate to New Project
+		Navigate to Create blank project
+		Input ProjectName
+		Input ProjectSlug
+		Select VisibilityLevel
+		Submit Create Project
+		Verify Page should contain blank Project page
+
+	Create template project 
+		Navigate to New Project
+		Navigate to Create from template
+		Navigate to Ruby on Rails, Use template
+		Input ProjectNameTemplate
+		Input ProjectSlugTemplate
+		Select VisibilityLevel
+		Submit Create Project
+		Verify page should contain Project page with template
+
+	Update name of template project
+		Navigate to ProjectNameTemplate Project
+		Navigate to Settings
+		Navigate to General Settings
+		Input NewProjectName
+		Submit Save Changes
+		Verify page should contain confirmation Project updated
+
+	Delete template project
+		Navigate to NewProjectName Project
+		Navigate to Settings
+		Navigate to General Settings
+		Navigate to Advanced 
+		Submit Delete project
+		Input verification code
+		Submit Yes, delete project
+		Verify page should return to home page and project deleted
+
+
+# Negative Tests
+
+	Create a blank project with the previous same name
+		Navigate to New Project
+		Navigate to Create blank project
+		Input ProjectName
+		Input ProjectSlug
+		Select VisibilityLevel
+		Submit Create Project
+		Verify Page should contain error project name has already been taken.
+

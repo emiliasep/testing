@@ -1,0 +1,63 @@
+
+#******************** Settings ************************
+
+*** Settings ***
+Documentation	Issue Test scenario. CRUD Operation: Create, Read, Update, Delete 
+
+Pre Condition	Open Browser, Login, Open Project 
+Post Condition	Log out, Close Browser
+Tags IssuePage, TS-1-IssuePage
+
+#******************* Common Variables ********************
+
+
+*** Variables ***
+
+ProjectsUrl=  https://gitlab.com/dashboard/projects
+Username= XYZ
+Password= ***
+ProjectName = test1
+IssueTitle = TestIssue
+IssueDescription = 'This is a test'
+NewTitle = MyIssue
+
+
+#******************** Test Cases *************************
+
+*** Test Case ***
+
+# Positive Tests
+
+	Create issue
+		Navigate to project ProjectName
+		Navigate to Issues
+		Choose New Issue
+		Input title IssueTitle
+		Input description IssueDescription
+		Submit Create issue
+		Verify page should contain created issue page
+
+ 	Update name of issue
+		Navigate to just previously created issue IssueTitle
+		Navigate to Edit
+		Input title NewTitle
+		Submit Save Changes
+		Verify page should contain issue with updated name
+
+
+	Create second issue with privious updated name
+		Navigate to project ProjectName
+		Navigate to Issues
+		Choose New Issue
+		Input title NewTitle
+		Input description IssueDescription
+		Submit Create issue
+		Verify page should contain created issue page with NewTitle #2
+
+    Delete first issue
+		Navigate to Issues
+		Navigate to issue NewTitle with #1 and earlier creation time
+		Navigate to More actions
+		Choose Delete issue
+		Submit Delete issue
+		Verify page should contain issues page with NewTitle #1 deleted
